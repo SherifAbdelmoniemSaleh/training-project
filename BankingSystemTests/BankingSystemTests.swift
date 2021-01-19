@@ -54,7 +54,8 @@ class BankingSystemTests: XCTestCase {
                         "uncleared_balance" : 0,
                         "transfer_payee_id" : "e9d84cc6-d17f-40ab-b874-8ce7fd52b0b7",
                         "deleted" : false
-                    ] ,[
+                    ] ,
+                    [
                         "id" : "f4d08ddbb-8b43-4fcb-ab40-e1d28a1d9e34",
                         "name" : "said",
                         "type" : "creditCard",
@@ -68,25 +69,17 @@ class BankingSystemTests: XCTestCase {
                         "deleted" : false
                     ]
                 ]
-                
             ]
             ]
             return HTTPStubsResponse(jsonObject : jsonObject , statusCode: 200 , headers:  nil)
         }
-        var expectResponce : [AccountModel]? = nil
-        let exception = self.expectation(description: "Network Failed")
         
         manager.getAllAccounts(budgetId: "") { (accounts) in
-            expectResponce = accounts
+            XCTAssertNotNil(accounts)
+            XCTAssertTrue(accounts.count == 2)
             print(accounts.count)
-            exception.fulfill()
         } onFail: { (error) in
             print(error)
         }
-        
-        waitForExpectations(timeout: 10, handler: nil)
-        XCTAssertNotNil(expectResponce)
-        XCTAssertTrue(expectResponce?.count == 2)
-        
     }
 }
