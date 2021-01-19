@@ -10,6 +10,21 @@ class AccountViewModel : AbstractViewModel {
     let manager = AccountManager()
     var accountsList : [AccountModel] = []
     
+    func validateBalance(balance : String) -> Bool{
+        if balance.isEmpty || Int(balance)! < 0 {
+            return false
+        }else{
+            return true
+        }
+    }
+    
+    func validateName(name : String) -> Bool{
+        if name.isEmpty {
+            return false
+        }else{
+            return true
+        }
+    }
     
     func addAccount(budgetId: String ,name : String , type : String , balance : Int , onSuccess: @escaping () -> Void, onFail: @escaping (_ error: String) -> Void) {
         if Connectivity.isConnectedToInternet(){

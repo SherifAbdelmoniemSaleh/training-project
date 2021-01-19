@@ -91,15 +91,15 @@ class AddAccountViewController: AbstractViewController {
     @IBAction func addAccountButtonAction(_ sender: Any) {
         if let balance = accountBalanceTextField.text , let name = accountNameTextField.text {
             // show toast
-            if balance.isEmpty || Int(balance)! < 0 {
-                self.showMsg(msg:invalidBalanceMessage)
-                return
-            }
-            if name.isEmpty {
+            if !viewModel.validateName(name: name){
                 self.showMsg(msg: invalidNameMessage)
                 return
             }
-            
+            if !viewModel.validateBalance(balance: balance){
+                self.showMsg(msg:invalidBalanceMessage)
+                return
+            }
+
             let alertAdd = UIAlertController(title: addAccountString, message: addAccountMessage, preferredStyle: .alert)
             alertAdd.addAction(UIAlertAction(title: okString , style: .destructive, handler: { (UIAlertAction) in
                 // call API
