@@ -14,14 +14,19 @@ class BankingSystemTests: XCTestCase {
     
     var validation : AccountViewModel!
     var manager : AccountManager!
+    var viewController : AccountViewController!
     
     override func setUpWithError() throws {
+        super.setUp()
         validation = AccountViewModel()
         manager = AccountManager()
+        viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AccountViewController") as! AccountViewController
+        _ = viewController.view
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDownWithError() throws {
+        super.tearDown()
         validation = nil
         manager = nil
         // Put teardown code here. This method is called after the invocation of each test method in the class.
@@ -82,4 +87,20 @@ class BankingSystemTests: XCTestCase {
             print(error)
         }
     }
+
+    func testLibraryVC_TableViewShouldNotBeNil() {
+        XCTAssertNotNil(viewController.accountsTableView)
+    }
+    
+    func testDataSource_ViewDidLoad_SetsTableViewDataSource() {
+        XCTAssertNotNil(viewController.accountsTableView.dataSource)
+        XCTAssertTrue(viewController.accountsTableView.dataSource is AccountViewController)
+    }
+    
+    // MARK: Delegate
+    func testDelegate_ViewDidLoad_SetsTableViewDelegate() {
+        XCTAssertNotNil(viewController.accountsTableView.delegate)
+        XCTAssertTrue(viewController.accountsTableView.delegate is AccountViewController)
+    }
+
 }
